@@ -1,0 +1,79 @@
+<div class="form-container">
+  <div class="form-card">
+
+    <!-- Cabeçalho -->
+    <div class="form-header">
+      <h2>Cadastro de Clube de Futebol</h2>
+      <p>Insira as informações básicas do clube</p>
+    </div>
+
+    <!-- Formulário -->
+    <form (ngSubmit)="salvar()">
+
+      <!-- Nome Oficial -->
+      <div class="form-group">
+        <label for="nomeOficial">Nome Oficial</label>
+        <input
+          id="nomeOficial"
+          type="text"
+          [(ngModel)]="clube.nomeOficial"
+          name="nomeOficial"
+          placeholder="Ex: São Paulo Futebol Clube"
+          required
+        />
+      </div>
+
+      <!-- Nome Popular (Fantasia) -->
+      <div class="form-group">
+        <label for="nomePopular">Nome Popular (Fantasia)</label>
+        <input
+          id="nomePopular"
+          type="text"
+          [(ngModel)]="clube.nomePopular"
+          name="nomePopular"
+          placeholder="Ex: São Paulo"
+        />
+      </div>
+
+      <!-- Sigla e Data de Fundação (Lado a lado) -->
+      <div class="form-row">
+
+        <!-- Sigla -->
+        <div class="form-group">
+          <label for="sigla">Sigla</label>
+          <input
+            id="sigla"
+            type="text"
+            [(ngModel)]="clube.sigla"
+            name="sigla"
+            placeholder="Ex: SPFC"
+            maxlength="5"
+          />
+        </div>
+
+        <!-- Data de Fundação -->
+        <div class="form-group">
+          <label for="dataFundacao">Data de Fundação</label>
+          <input
+            id="dataFundacao"
+            type="date"
+            [(ngModel)]="clube.dataFundacao"
+            name="dataFundacao"
+          />
+        </div>
+
+      </div>
+
+      <!-- Botões de Ação -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="limpar()">
+          Limpar
+        </button>
+        <button type="submit" class="btn btn-primary">
+          Salvar Clube
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

@@ -1,0 +1,101 @@
+
+.custom-menubar {
+  background: #1e3a5f;
+  border: none;
+  border-radius: 8px;
+  min-height: 64px;
+  width: 100%;
+}
+
+:host ::ng-deep .custom-menubar .p-menubar-root-list {
+  margin-left: auto;
+}
+
+:host ::ng-deep .custom-menubar .p-menubar-item-link {
+  transition: none;
+}
+
+:host ::ng-deep .custom-menubar .p-menubar-item-link {
+  background: transparent !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* inserindo sublinhado no hover */
+/* Configura o link (pai) para receber a borda que engloba ícone e texto */
+:host ::ng-deep .custom-menubar .p-menubar-item-link {
+  border-bottom: 3px solid transparent;
+  padding-bottom: 2px;
+  box-sizing: border-box;
+  transition: none;
+  background: transparent !important;
+}
+
+/* Estado normal do texto */
+:host ::ng-deep .custom-menubar .p-menubar-item-link .p-menubar-item-label {
+  color: white;
+  background: transparent !important;
+}
+
+/* Estado hover: o link inteiro recebe a borda verde (abrangendo ícone e texto) */
+:host ::ng-deep .custom-menubar .p-menubar-item-link:hover {
+  background: transparent !important;
+  border-bottom: 3px solid #008000;
+}
+
+/* Garante que o texto continue branco no hover */
+:host ::ng-deep .custom-menubar .p-menubar-item-link:hover .p-menubar-item-label {
+  color: white;
+}
+
+/* Criando uma separação entre os links */
+:host ::ng-deep .custom-menubar .p-menubar-root-list {
+  margin-left: auto;
+  gap: 24px;
+}
+
+
+
+
+
+
+/* criando uma separação entre os links */
+:host ::ng-deep .custom-menubar .p-menubar-root-list{
+  margin-left: auto;
+  gap: 24px;
+}
+
+/* Estilizando os icones */
+:host ::ng-deep .custom-menubar .p-menubar-item-icon {
+  color: #f1c232;
+  margin-right: 5px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+:host ::ng-deep .custom-menubar .p-menubar-item-link:hover .p-menubar-item-icon {
+  color: #f1c232 !important;
+}
+
+:host ::ng-deep .custom-menubar .p-menubar-item-label {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+:host ::ng-deep .custom-menubar .p-menubar-item-icon {
+  font-size: 1.1rem;
+}
+
+
+
+
