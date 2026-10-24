@@ -11,7 +11,7 @@ class Clube(Base):
         CheckConstraint(
             "gestao IN ('ASSOCIATIVO', 'SAF', 'PRIVADO', 'HIBRIDO')",
             name = "ck_clube_gestao",
-        )
+        ),
     )
 
     id: Mapped[int] = mapped_column(
@@ -33,7 +33,7 @@ class Clube(Base):
     gestao: Mapped[str] = mapped_column(
         String(20),
         nullable = False,
-        Default = "ASSOCIATIVO",
+        default = "ASSOCIATIVO",
     )
     fundacao: Mapped[date] = mapped_column(
         Date,
