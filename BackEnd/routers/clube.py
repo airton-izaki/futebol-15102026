@@ -1,8 +1,9 @@
 from fastapi                import APIRouter, Depends, status
 from sqlalchemy.orm         import Session
+from typing                 import List
 
 from schemas.clube          import ClubeCreate, ClubeResponse
-from services.clube_service import cadastrar_clube
+from services.clube_service import cadastrar_clube, Listar_Clube
 from core.database          import get_db
 
 router = APIRouter(
@@ -30,14 +31,15 @@ async def criar_clube(
     return clube_criado
 
 
+@router.get(
+    "/",
+    response_model = List[ClubeResponse],
+    summary = "Listar todos os clubes cadastrados",
+)
 
-
-
-
-
-
-
-
+async def Listar_Clubes(db: Session = Depends(get_db)):
+    """Retorna a lista completa de clubes registados com os respetivos dados e localidades."""
+    return await Listar_Clubes(db = db)
 
 
 

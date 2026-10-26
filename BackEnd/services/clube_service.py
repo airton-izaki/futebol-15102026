@@ -1,5 +1,6 @@
 from fastapi            import HTTPException, status
 from sqlalchemy.orm     import Session
+from typing             import List
 
 from models.clube       import Clube
 from schemas.clube      import ClubeCreate
@@ -64,14 +65,20 @@ async def cadastrar_clube(db: Session, clube_data: ClubeCreate) -> Clube:
     return novo_clube
 
 
+async def Listar_Clube(db: Session) -> List[Clube]:
 
+    """Consulta e retorna todos os clubes registados na base de dados,
+        ordenados por nome oficial.
+    """
+    try:
+        clubes = db.query(Clube).order_by(Clube.nome_oficial).all()
+        return clubes
 
-
-
-
-
-
-
+    except Exception as e:
+        raise HTTPException(
+            status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail = f"Erro ao buscar clubes na base de dados: {str(e)}",
+        )
 
 
 
