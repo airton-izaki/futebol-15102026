@@ -10,15 +10,25 @@ export class ClubeService {
 
   constructor(private http: HttpClient) {}
 
+  // Buscar estados para o formulário
   getEstados(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/localidades/estados`);
   }
 
+  // Buscar municípios do estado selecionado
   getMunicipios(ufId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/localidades/estados/${ufId}/municipios`);
   }
 
+  // Cadastrar novo clube (POST)
   cadastrarClube(clube: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/clubes/`, clube);
   }
+
+  // Listar todos os clubes cadastrados (GET)
+  getClubes(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/clubes/`);
+    }
 }
+
+

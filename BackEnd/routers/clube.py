@@ -39,7 +39,7 @@ async def criar_clube(
 
 async def Listar_Clubes(db: Session = Depends(get_db)):
     """Retorna a lista completa de clubes registados com os respetivos dados e localidades."""
-    return await Listar_Clubes(db = db)
+    return await Listar_Clube(db = db)
 
 
 

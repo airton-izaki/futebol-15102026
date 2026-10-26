@@ -11,7 +11,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
-import { ClubeService } from './clube-service';
+import { ClubeService } from '../../../../services/clube-service';
 
 interface Municipio {
   id: number;
