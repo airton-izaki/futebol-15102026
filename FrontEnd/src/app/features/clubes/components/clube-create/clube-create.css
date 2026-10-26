@@ -18,13 +18,22 @@ form {
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.25rem;
 }
 
-.field {
+.field {                    /* Por padrão, qualquer .field sem classe extra ocupa 1 coluna automaticamente */
   min-width: 0;
 }
+
+.field.col-2 {              /* Ocupa 2 colunas */
+  grid-column: span 2;
+}
+
+/*.field.col-3 {              Ocupa as 3 colunas (largura total)
+    grid-column: 1 / 4;
+}
+    */
 
 .field.full {
   grid-column: 1 / -1;
@@ -75,6 +84,58 @@ p-autocomplete {
   gap: 0.75rem;
   margin-top: 0.5rem;
 }
+
+
+/* Cabeçalho */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin: -1rem -1rem 1.75rem;
+  padding: 1.5rem 1rem;
+  border-radius: 0.75rem;
+  background: #1b4332;
+  text-align: center;
+  
+}
+
+.header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(1.25rem, 3vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.icon-titulo {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: #fcc100;
+  color: #1b4332;
+  font-size: 1.25rem;
+}
+
+.header p {
+  margin: 0;
+  color: #d7e5dd;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+label {
+    color: #1b4332;
+    font-size: 0.8rem;
+}
+
+
 
 @media (max-width: 640px) {
   .container {
