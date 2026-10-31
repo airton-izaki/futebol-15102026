@@ -1,0 +1,62 @@
+.club-list-page {
+  padding: clamp(1rem, 4vw, 3rem) 1rem;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding: 1rem;
+    background-color: #2563eb;
+    padding: 1.25rem 2rem;
+    border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  color: #ffffff;
+}
+
+/* Agrupamento do título e subtítulo */
+.header-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.header h2 {
+    position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header .subtitle {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #dbeafe; /* Azul bem claro para o subtítulo */
+}
+
+.header p-button {
+  margin-left: auto;
+}
+
+/* Estilização do botão branco igual ao da imagem */
+::ng-deep .btn-novo-clube .p-button {
+  background-color: #ffffff !important;
+  color: #2563eb !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  padding: 0.5rem 1rem !important;
+}
+
+::ng-deep .btn-novo-clube .p-button:hover {
+  background-color: #f1f5f9 !important;
+}

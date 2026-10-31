@@ -1,153 +1,169 @@
-<div class="container" ngSkipHydration>
-	<p-card>
-
-        <!-- Cabeçalho Personalizado -->
-        <div class="header">
-            <h2><i class="pi pi-shield icon-titulo" aria-hidden="true"></i> Cadastrar Novo Clube</h2>
-            <p>Preencha os dados para cadastrar um novo clube.</p>
+<div class = "container">
+    <p-card>
+        <!-- Cabeçalho Dinâmico -->
+         <div class = "header">
+            <h2>
+                <i [class] = "isEdicao ? 'pi pi-user-edit icon-titulo' : 'pi pi-shield icon-titulo'" aria-hidden = "true"></i>
+                {{ isEdicao ? 'Editar Clube' : 'Cadastrar Novo Clube' }}
+            </h2>
+            <p>
+                {{ isEdicao ? 'Atualize os dados do clube selecionado.' : 'Preencha os dados para cadastrar um novo clube.' }}
+            </p>
         </div>
 
+            <!-- Corpo do Formulário -->
+            <form (ngSubmit) = "salvar()">
+
+                <div class="form-grid">
+                    <!-- Nome Oficial -->
+                    <div class="field col-3">
+                        <label for="nome_oficial"> Nome Oficial </label>
+                        <input pInputText id="nome_oficial" [(ngModel)]="clube.nome_oficial" name="nome_oficial" required>
+                    </div>
+
+                    <!-- Nome Popular -->
+                    <div class="field col-3">
+                        <label for="nome"> Nome </label>
+                        <input pInputText id="nome" [(ngModel)]="clube.nome" name="nome" required>
+                    </div>
+
+                    <!-- Sigla -->
+                    <div class="field col-3">
+                        <label for="sigla"> Sigla </label>
+                        <input pInputText id="sigla" [(ngModel)]="clube.sigla" name="sigla" required>
+                    </div>
 
 
-		<form (ngSubmit) = "salvar()">
+                    <!-- Tipo de Gestão -->
+                    <div class="field col-3">
+                        <label for="gestao" class="font-bold block mb-2"> Tipo de Gestão </label>
+                        <select name="gestao" id="gestao" [(ngModel)]="clube.gestao" class="p-inputtext w-full">
+                            <option value="Associativo">Associativo</option>
+                            <option value="Híbrido">Híbrido</option>
+                            <option value="Privado">Privado</option>
+                            <option value="SAF">SAF</option>
+                        </select>
+                    </div>
 
-            <div class = "form-grid">
-                <!-- Nome Oficial -->
-                <div class = "field col-3">
-                    <label for = "nome_oficial">  Nome Oficial  </label>
-                    <input  pInputText  id = "nome_oficial"  [(ngModel)] = "clube.nome_oficial" name = "nome_oficial"  required >
+                     <!-- Data de Fundação -->
+                    <div class="field col-3">
+                        <label for="fundacao"> Data da Fundação </label>
+                        <input pInputText id="fundacao" type="date" [(ngModel)]="clube.fundacao" name="fundacao" required>
+                    </div>
+
+                    <!-- Estado (UF) -->
+                    <div class="field col-3">
+                        <label for="estado"> Estado (UF) </label>
+                        <select class="p-inputtext w-full" name="estado" id="estado" [(ngModel)]="estadoSelecionado" (ngModelChange)="onEstadoChange($event)">
+                            <option [ngValue]="null">Selecione o Estado </option>
+                            <option *ngFor="let uf of estados" [ngValue]="uf.id"> {{ uf.nome }} ({{ uf.sigla }}) </option>
+                        </select>
+                    </div>
+
+                    <!-- Município -->
+                    <div class="field col-3">
+                        <label for="municipio"> Cidade </label>
+                        <p-autocomplete
+                            inputId="municipio"
+                            [(ngModel)]="municipioSelecionado"
+                            (ngModelChange)="atualizarMunicipioSelecionado($event)"
+                            (completeMethod)="filtrarMunicipios($event.query)"
+                            [suggestions]="municipiosFiltrados"
+                            optionLabel="nome"
+                            [minLength]="2"
+                            [delay]="200"
+                            [forceSelection]="true"
+                            [showClear]="true"
+                            [disabled]="!estadoSelecionado"
+                            [inputStyle]="{ width: '100%' }"
+                            styleClass="w-full"
+                            name="municipio"
+                            placeholder="Digite o nome do município"
+                            required>
+                        </p-autocomplete>
+                        <small class="field-hint" *ngIf="carregandoMunicipios">
+                            Carregando municípios do estado selecionado...
+                        </small>
+                    </div>
+
+                    <!-- Estádio -->
+                    <div class="field col-3">
+                        <label for="estadio"> Estádio </label>
+                        <input class="w-full" pInputText id="estadio" name="estadio" [(ngModel)]="clube.estadio" required>
+                    </div>
+
+                    <!-- Website -->
+                    <div class="field col-3">
+                        <label for="website"> Website </label>
+                        <input class="w-full" pInputText id="website" [(ngModel)]="clube.website" name="website" required>
+                    </div>
+
+                    <!-- Linha divisória -->
+                    <div class="field full" style="border-bottom: 1px solid #ccc; margin: 20px 0;"></div>
+
+                    <div class="field full">
+                        <span>Identidade Visual</span>
+                    </div>
+
+                    <!-- Cores do Clube -->
+                    <div class="field col-3">
+                        <label for="cor_principal"> Cor Principal </label>
+                        <input pInputText id="cor_principal" name="cor_principal" [(ngModel)]="clube.cor_principal" required>
+                    </div>
+
+                    <div class="field col-3">
+                        <label for="cor_secundaria"> Segunda Cor </label>
+                        <input pInputText id="cor_secundaria" name="cor_secundaria" [(ngModel)]="clube.cor_secundaria" required>
+                    </div>
+
+                    <div class="field col-3">
+                        <label for="cor_terciaria"> Terceira Cor </label>
+                        <input pInputText id="cor_terciaria" name="cor_terciaria" [(ngModel)]="clube.cor_terciaria" required>
+                    </div>
+
+                    <!-- Escudo e Status Ativo -->
+                    <div class="field col-2">
+                        <label for="escudo"> Escudo </label>
+                        <input pInputText id="escudo" name="escudo" [(ngModel)]="clube.escudo" placeholder="https://..." required>
+                    </div>
+
+                    <div class="field col-3">
+                        <label for="ativo"> Ativo </label>
+                        <select name="ativo" id="ativo" [(ngModel)]="clube.ativo" class="p-inputtext w-full">
+                            <option [ngValue]="true">Sim</option>
+                            <option [ngValue]="false">Não</option>
+                        </select>
+                    </div>
+
+                    <!-- Descrição -->
+                    <div class="field full">
+                        <label for="descricao" class="font-bold block mb-2"> Descrição / História</label>
+                        <textarea pInputTextarea id="descricao" [(ngModel)]="clube.descricao" name="descricao" rows="3" class="w-full"></textarea>
+                    </div>
+
                 </div>
 
-                <!-- Nome Popular -->
-                <div class = "field col-3">
-                    <label  for = "nome">  Nome </label>
-                    <input pInputText  id = "nome"  [(ngModel)] = clube.nome  name = "nome"  required >
+                    <!-- Botões de Ação Dinâmicos -->
+                    <div class = "actions">
+                    <p-button label="Voltar para lista" icon="pi pi-arrow-left" styleClass="p-button-secondary" routerLink="/clubes" type="button"></p-button>
+
+                    <!-- Botão central muda dependendo se é edição ou cadastro -->
+                    <p-button
+                        [label]="isEdicao ? 'Restaurar' : 'Limpar'"
+                        [icon]="isEdicao ? 'pi pi-refresh' : 'pi pi-times'"
+                        styleClass="p-button-secondary"
+                        (click)="isEdicao ? carregarDadosClube() : limpar()"
+                        type="button">
+                    </p-button>
+
+                    <p-button
+                        [label]="isEdicao ? 'Salvar Alterações' : 'Salvar Clube'"
+                        icon="pi pi-check"
+                        styleClass="p-button-success"
+                        type="submit">
+                    </p-button>
                 </div>
+            </form>
 
-                <!-- Sigla -->
-                <div class = "field col-3">
-                    <label  for = "sigla">  Sigla </label>
-                    <input pInputText  id = "sigla"  [(ngModel)] = clube.sigla   name = "sigla"  required>
-                </div>
-
-                <!-- Tipo de Gestão -->
-                <div class = "field col-3">
-                    <label for = "gestao"  class = "font-bold block mb-2" > Tipo de Gestão </label>
-                    <select name = "gestao"  id = "gestao"  [(ngModel)] = clube.gestao  class = "p-inputtext w-full" >
-                        <option value = "Associativo">Associativo</option>
-                        <option value = "Híbrido">Híbrido</option>
-                        <option value = "Privado">Privado</option>
-                        <option value = "SAF">SAF</option>
-                    </select>
-                </div>
-
-                <!-- Data de Fundação -->
-                <div class = "field col-3">
-                    <label for = "fundacao" > Data da Fundação </label>
-                    <input pInputText  id = "fundacao"  type = "date"  [(ngModel)] = clube.fundacao  name = "fundacao"  required >
-                </div>
-
-                <!-- Estado (UF) -->
-                <div class = "field col-3">
-                    <label for = "estado">  Estado (UF) </label>
-                    <select  class = "p-inputtext w-full"   name = "estado"  id = "estado"   [(ngModel)] = "estadoSelecionado"  (ngModelChange) =  "onEstadoChange($event)" >
-                        <option  [ngValue] = null >Selecione o Estado </option>
-                        <option *ngFor = "let uf of estados"  [ngValue] = "uf.id" >  {{ uf.nome }} ({{ uf.sigla }})  </option>
-                    </select>
-                </div>
-
-                <!-- Município -->
-                <div class = "field col-3">
-                    <label for = "municipio"> Cidade </label>
-                    <p-autocomplete
-                        inputId = "municipio"
-                        [(ngModel)] = "municipioSelecionado"
-                        (ngModelChange) = "atualizarMunicipioSelecionado($event)"
-                        (completeMethod) = "filtrarMunicipios($event.query)"
-                        [suggestions] = "municipiosFiltrados"
-                        optionLabel = "nome"
-                        [minLength] = "2"
-                        [delay] = "200"
-                        [forceSelection] = "true"
-                        [showClear] = "true"
-                        [disabled] = "!estadoSelecionado"
-                        [inputStyle] = "{ width: '100%' }"
-                        styleClass = "w-full"
-                        name = "municipio"
-                        placeholder="Digite o nome do município"
-                        required>
-                    </p-autocomplete>
-                    <small class = "field-hint" *ngIf = "carregandoMunicipios">
-                        Carregando municípios do estado selecionado...
-                    </small>
-                </div>
-
-                <!-- Estádio -->
-                <div class = "field col-3">
-                    <label  for = "estadio"> Estádio </label>
-                    <input  class = "w-full"  pInputText id = "estadio"   name = "estadio"  [(ngModel)] = clube.estadio  required >
-                </div>
-
-                <!-- Website -->
-                <div class = "field col-3">
-                    <label for = "website"> Website </label>
-                    <input  class = "w-full"  pInputText  id = "website"  [(ngModel)] = clube.website   name = "website"  required >
-                </div>
-
-                <div  class = "field full"   style = "border-bottom: 1px solid #ccc; margin: 20px 0;">
-
-                </div>
-                <div  class = "field full">
-                    <span>
-                        Identidade Visual
-                    </span>
-                </div>
-
-                <!-- Cores do Clube (Principal, Secundária, Terciária) -->
-                <div class = "field col-3">
-                    <label for = "cor_principal"> Cor Principal </label>
-                    <input pInputText   id = "cor_principal"  name = "cor_principal"  [(ngModel)] = clube.cor_principal   required >
-                </div>
-
-                <div class = "field col-3">
-                    <label for = "cor_secundaria"> Segunda Cor </label>
-                    <input pInputText   id = "cor_secundaria"  name = "cor_secundaria"  [(ngModel)] = clube.cor_secundaria   required >
-                </div>
-
-                <div class = "field col-3">
-                    <label for = "cor_terciaria"> Terceira Cor </label>
-                    <input pInputText   id = "cor_terciaria"  name = "cor_terciaria"  [(ngModel)] = clube.cor_terciaria   required >
-                </div>
-
-                <!-- Escudo e Status Ativo -->
-                 <div class = "field col-2">
-                    <label  for = "escudo"> Escudo </label>
-                    <input pInputText  id = "escudo"  name = "escudo"  [(ngModel)] = clube.escudo  placeholder = "https://..."  required >
-                </div>
-
-                <div class = "field col-3">
-                    <label for = "ativo">  Ativo  </label>
-                    <select  name = "ativo"  id = "ativo"  name = "ativo"  [(ngModel)] = "clube.ativo" class="p-inputtext w-full">
-                        <option [ngValue] = "true">Sim</option>
-                        <option [ngValue] = "false">Não</option>
-                    </select>
-                </div>
-
-                <!-- Descrição -->
-                <div class = "field full">
-                    <label for = "descricao" class = "font-bold block mb-2"> Descrição / História</label>
-                    <textarea  pInputTextarea  id = "descricao"  [(ngModel)] = "clube.descricao"  name = "descricao" rows = "3"  class = "w-full"></textarea>
-                </div>
-
-            </div>
-
-            <!-- Botões de Ação -->
-            <div class = "actions">
-                <p-button label = "Limpar" icon = "pi pi-times" styleClass = "p-button-secondary" (click) = "limpar()" type = "button"></p-button>
-                <p-button label = "Salvar Clube"  icon = "pi pi-check"  styleClass = "p-button-success" type = "submit"></p-button>
-            </div>
-
-		</form>
-
-	</p-card>
+    </p-card>
 </div>

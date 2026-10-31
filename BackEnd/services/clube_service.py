@@ -81,6 +81,53 @@ async def Listar_Clube(db: Session) -> List[Clube]:
         )
 
 
+async def obter_clube(db: Session, clube_id: int) -> Clube:
+    clube = db.query(Clube).filter(Clube.id == clube_id).first()
+    if clube is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Clube não encontrado.")
+    return clube
+
+
+async def atualizar_clube(db: Session, clube_id: int, clube_data: ClubeCreate) -> Clube:
+    clube = await obter_clube(db, clube_id)
+    try:
+        localizacao = await consultar_dados_municipio(clube_data.codigo_ibge_municipio)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Não foi possível validar o código IBGE informado. Detalhe: {str(e)}",
+        )
+
+    clube.nome_oficial = clube_data.nome_oficial
+    clube.nome = clube_data.nome
+    clube.sigla = clube_data.sigla
+    clube.gestao = clube_data.gestao.name
+    clube.fundacao = clube_data.fundacao
+    clube.codigo_ibge_municipio = clube_data.codigo_ibge_municipio
+    clube.cidade = localizacao["nome"]
+    clube.estado_nome = localizacao["estado_nome"]
+    clube.estado_sigla = localizacao["estado_sigla"]
+    clube.estadio = clube_data.estadio
+    clube.cor_primaria = clube_data.cor_principal
+    clube.cor_secundaria = clube_data.cor_secundaria
+    clube.cor_terciaria = clube_data.cor_terciaria
+    clube.website = str(clube_data.website) if clube_data.website else None
+    clube.escudo = str(clube_data.escudo) if clube_data.escudo else None
+    clube.descricao = clube_data.descricao
+    clube.ativo = clube_data.ativo
+
+    try:
+        db.commit()
+        db.refresh(clube)
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Erro ao atualizar o clube no banco de dados: {str(e)}",
+        )
+    return clube
+
+
 
 
 

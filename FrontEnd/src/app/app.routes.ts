@@ -1,19 +1,26 @@
 import { Routes }         from '@angular/router';
-import { Home }           from './pages/home/home';
-import { Clubes }         from './pages/clubes/clubes';
-import { Classificacao }  from './pages/classificacao/classificacao';
 
 export const routes: Routes = [
   {
     path: '',
-    component: Home
+    loadComponent: () => import('./pages/home/home').then((module) => module.Home),
+    pathMatch: 'full'
   },
    {
+    path: 'clubes/novo',
+    loadComponent: () => import('./features/clubes/components/clube-create/clube-create').then((module) => module.ClubeCreate)
+   },
+   {
+    path: 'clubes/editar/:id',
+    loadComponent: () => import('./features/clubes/components/clube-create/clube-create').then((module) => module.ClubeCreate)
+   },
+   {
     path: 'clubes',
-    component: Clubes
+    loadComponent: () => import('./pages/clubes/clubes').then((module) => module.Clubes),
+    pathMatch: 'full'
    },
    {
     path: 'classificacao',
-    component: Classificacao
+    loadComponent: () => import('./pages/classificacao/classificacao').then((module) => module.Classificacao)
    }
 ];

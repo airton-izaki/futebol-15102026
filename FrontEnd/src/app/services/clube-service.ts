@@ -28,7 +28,15 @@ export class ClubeService {
   // Listar todos os clubes cadastrados (GET)
   getClubes(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/clubes/`);
-    }
+  }
+
+  getClube(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/clubes/${id}`);
+  }
+
+  atualizarClube(id: number, clube: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/clubes/${id}`, clube);
+  }
 }
 
 

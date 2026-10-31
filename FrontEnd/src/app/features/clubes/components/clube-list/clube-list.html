@@ -1,49 +1,81 @@
-<div class="p-4">
-  <p-card header="Lista de Clubes Cadastrados">
 
-    <p-table [value]="clubes" [paginator]="true" [rows]="10" [tableStyle]="{ 'min-width': '50rem' }" [rowsPerPageOptions]="[5, 10, 20]">
-      <ng-template pTemplate="header">
-        <tr>
-            <th>Escudo</th>
-            <th>Nome</th>
-            <th>Sigla</th>
-            <th>Gestão</th>
-            <th>Cidade</th>
-            <th>Ativo</th>
-        </tr>
-      </ng-template>
 
-      <ng-template pTemplate="body" let-clube>
-        <tr>
-            <td>
-              <img
-                *ngIf = "clube.escudo; else semEscudo"
-                [src] = "clube.escudo"
-                [alt] = "'Escudo do ' + clube.nome"
-                width = "48"
-                height ="48"
-                style = "object-fit: contain"
-              />
-              <ng-template #semEscudo>—</ng-template>
-            </td>
-            <td>{{ clube.nome }}</td>
-            <td>{{ clube.sigla }}</td>
-            <td>{{ clube.gestao }}</td>
-            <td>{{ clube.cidade }}</td>
-            <td>
-            <span [class]="clube.ativo ? 'text-green-600 font-bold' : 'text-red-600 font-bold'">
-                {{ clube.ativo ? 'Sim' : 'Não' }}
-            </span>
-            </td>
-        </tr>
-      </ng-template>
+<div class = "club-list-page">
 
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td colspan="7" class="text-center p-4">Nenhum clube cadastrado até o momento.</td>
-        </tr>
-      </ng-template>
-    </p-table>
+    <!-- Header -->
+        <div class = "header">
+            <div class = "header-title">
+                <h2>
+                    <span class="material-icons">shield</span>
+                    Cadastrar Novo Clube
+                </h2>
+                <p class = "subtitle">Clubes com localização informada no cadastro.</p>
+            </div>
+            <p-button
+                label = "Novo Clube"
+                styleClass = "btn-novo-clube"
+                routerLink = "/clubes/novo">
+                <span class = "material-icons">add</span>
+            </p-button>
+        </div>
 
-  </p-card>
+        <!-- Corpo da Tabela -->
+        <p-table
+        [value] = "clubes"
+        [paginator] = "true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rows] = "20"
+        [rowsPerPageOptions] = "[5, 10, 20, 25]"
+        >
+
+            <!-- Cabeçalho da abela --->
+            <ng-template  pTemplate = "header">
+                <tr>
+                    <th>Escudo</th>
+                    <th>Nome</th>
+                    <th>Sigla</th>
+                    <th>Gestão</th>
+                    <th>Cidade</th>
+                    <th>Ativo</th>
+                    <th>Ação</th>
+                </tr>
+            </ng-template>
+
+            <!-- Conteúdo da Tabela -->
+             <ng-template  pTemplate="body" let-clube>
+                <tr>
+                    <td>
+                        <img
+                            *ngIf = "clube.escudo; else semEscudo"
+                            [src] = "clube.escudo"
+                            [alt] = "'Escudo do ' + clube.nome"
+                            width = "48"
+                            height ="48"
+                            style = "object-fit: contain"
+                        />
+                        <ng-template #semEscudo>—</ng-template>
+                    </td>
+                    <td>  {{ clube.nome }}  </td>
+                    <td>  {{ clube.sigla }}  </td>
+                    <td>  {{ clube.gestao }}  </td>
+                    <td>  {{ clube.cidade }}  </td>
+                    <td>
+                        <span [class]="clube.ativo ? 'text-green-600 font-bold' : 'text-red-600 font-bold'"></span>
+                        {{ clube.ativo ? 'Sim' : 'Não' }}
+                    </td>
+                    <td>
+                        <a class = "edit-link" [routerLink]="['/clubes/editar', clube.id]" [attr.aria-label]="'Editar ' + clube.nome">
+                            <i class="pi pi-pencil" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+             </ng-template>
+
+             <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7" class="text-center p-4">Nenhum clube cadastrado até o momento.</td>
+                </tr>
+            </ng-template>
+      </p-table>
+
 </div>

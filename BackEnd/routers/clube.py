@@ -1,9 +1,9 @@
-from fastapi                import APIRouter, Depends, status
+from fastapi                import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm         import Session
 from typing                 import List
 
 from schemas.clube          import ClubeCreate, ClubeResponse
-from services.clube_service import cadastrar_clube, Listar_Clube
+from services.clube_service import cadastrar_clube, Listar_Clube, obter_clube, atualizar_clube
 from core.database          import get_db
 
 router = APIRouter(
@@ -40,6 +40,16 @@ async def criar_clube(
 async def Listar_Clubes(db: Session = Depends(get_db)):
     """Retorna a lista completa de clubes registados com os respetivos dados e localidades."""
     return await Listar_Clube(db = db)
+
+
+@router.get("/{clube_id}", response_model=ClubeResponse, summary="Consultar um clube")
+async def consultar_clube(clube_id: int, db: Session = Depends(get_db)):
+    return await obter_clube(db=db, clube_id=clube_id)
+
+
+@router.put("/{clube_id}", response_model=ClubeResponse, summary="Atualizar um clube")
+async def editar_clube(clube_id: int, clube_data: ClubeCreate, db: Session = Depends(get_db)):
+    return await atualizar_clube(db=db, clube_id=clube_id, clube_data=clube_data)
 
 
 

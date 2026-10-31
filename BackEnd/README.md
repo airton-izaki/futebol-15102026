@@ -28,7 +28,7 @@ pip install -r requirements.txt
 Quando `main.py` estiver implementado como ponto de entrada ASGI, a API poderá ser iniciada em modo de desenvolvimento com:
 
 ```powershell
-uvicorn main:app --reload
+uvicorn main:app --reload --host 127.0.0.1 --port 8001
 ```
 
 Esse comando pressupõe que `main.py` exponha uma variável chamada `app`. A interface interativa do FastAPI fica normalmente disponível em `/docs` enquanto o servidor estiver em execução.
