@@ -27,7 +27,19 @@ async def cadastrar_clube(db: Session, clube_data: ClubeCreate) -> Clube:
             detail = f"Não foi possível validar o código IBGE informado. Detalhe: {str(e)}",
         )
 
-    # 2. Criar a instância do modelo SQLAlchemy com os dados validados
+    # 2. Verificar se já existe um clube com o mesmo nome ou nome oficial
+    clube_existente = db.query(Clube).filter(
+        (Clube.nome == clube_data.nome) | (Clube.nome_oficial == clube_data.nome_oficial)
+    ).filter
+
+    if clube_existente:
+        raise HTTPException(
+            status_code = status.HTTP_400_BAD_REQUEST,
+            detail = "Já existe um clube cadastrado com este nome ou nome oficial."
+        )
+    
+
+    # 3. Criar a instância do modelo SQLAlchemy com os dados validados
     novo_clube = Clube(
         nome_oficial = clube_data.nome_oficial,
         nome = clube_data.nome,
@@ -48,7 +60,7 @@ async def cadastrar_clube(db: Session, clube_data: ClubeCreate) -> Clube:
         ativo = clube_data.ativo,
     )
 
-    # 3. Salvar o registro no banco de dados
+    # 4. Salvar o registro no banco de dados
     try:
         db.add(novo_clube)
         db.commit()
@@ -61,7 +73,7 @@ async def cadastrar_clube(db: Session, clube_data: ClubeCreate) -> Clube:
             detail = f"Erro ao persistir o clube no banco de dados: {str(e)}",
         )
 
-    # 4. Devolver o clube cadastrado para o Router responder ao Angular
+    # 5. Devolver o clube cadastrado para o Router responder ao Angular
     return novo_clube
 
 

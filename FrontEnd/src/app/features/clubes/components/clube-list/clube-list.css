@@ -8,13 +8,14 @@
     justify-content: space-between;
     position: relative;
     padding: 1rem;
-    background-color: #2563eb;
+    background: #1b4332;
     padding: 1.25rem 2rem;
     border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  color: #ffffff;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    color: #ffffff;
+    border-bottom: 0.3rem solid #fcc100;
 }
 
 /* Agrupamento do título e subtítulo */
