@@ -3,8 +3,14 @@ from fastapi                import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib             import asynccontextmanager
 from core.database          import Base, engine
-from routers                import clube, localidades, campeonato_router
-from models                 import clube as clube_model
+
+import models.clube
+import models.campeonato
+import models.rodada
+import models.jogo
+import routers.localidades
+
+from routers                import clube, localidades, campeonato_router, jogo_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -28,8 +34,8 @@ app.add_middleware(
 
 app.include_router(clube.router)
 app.include_router(localidades.router)
-app.include_router(campeonato_router)
-
+app.include_router(campeonato_router.router)
+app.include_router(jogo_router.router)
 
 
 @app.get("/")

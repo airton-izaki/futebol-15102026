@@ -13,7 +13,7 @@ class CampeonatoCreate(BaseModel):
     temporada: str = Field(
         ...,
         min_length = 1,
-        max_length = 10
+        max_length = 10,
         example="2026 ou 2025/2026",
     )
 

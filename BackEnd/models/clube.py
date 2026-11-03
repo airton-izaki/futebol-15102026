@@ -5,7 +5,7 @@ from core.database      import Base
 
 
 class Clube(Base):
-    __tablename__ = "Clube"                 #  Define o nome da tabela que será criada no
+    __tablename__ = "clube"                 #  Define o nome da tabela que será criada no
 
     __table_args__ = (
         CheckConstraint(

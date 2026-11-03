@@ -13,6 +13,7 @@ router = APIRouter(
 )
 
 @router.post(
+    "/",
     response_model = CampeonatoResponse,
     status_code = status.HTTP_201_CREATED,
     summary = "Cadastrar um novo campeonato",
